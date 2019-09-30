@@ -23,7 +23,7 @@ module.exports = (
   output: {
     path: path.join(dirname, 'build'),
     filename: 'index.js',
-    library: '@xgk/js-web-loader',
+    library: 'external-data-loader',
     libraryTarget: 'umd',
   },
 
