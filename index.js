@@ -15,7 +15,7 @@ module.exports = class {
   }
 
   getXhr({
-    type, source, name, middleware,
+    type, source, name, middleware = null,
   }, resolve, reject) {
     const xhr = new XMLHttpRequest();
     xhr.lastLoaded = 0;
@@ -85,7 +85,7 @@ module.exports = class {
             type: src.type || 'text',
             source: src.source || src,
             name: source,
-            middleware: src.middleware,
+            middleware: src.middleware || null,
           }, resolve, reject);
         }
       }
@@ -112,7 +112,7 @@ module.exports = class {
     if (++this.current === this.length) {
       this.loaded = this.length;
       this.progress();
-      resolve(middleware(this.content));
+      resolve(middleware ? middleware(this.content) : this.content);
     }
   }
 
