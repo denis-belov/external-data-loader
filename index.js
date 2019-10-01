@@ -6,7 +6,7 @@ no-magic-numbers
 
 module.exports = class {
   constructor() {
-    // this.content = {};
+    this.content = {};
     this.length = null;
     this.current = null;
     this.loaded = null;
@@ -84,7 +84,7 @@ module.exports = class {
 
         for (const source in options.sources) {
           const src = options.sources[source];
-          this.getXhr({
+          this.content[source] = this.getXhr({
             name: source,
             type: src.type || 'text',
             source: src.source || src,
@@ -123,11 +123,12 @@ module.exports = class {
   onloadBroken(name, resolve) {
     this.loaded++;
     this.progress();
+    this.content[name] = null;
 
     if (++this.current === this.length) {
       this.loaded = this.length;
       this.progress();
-      resolve(null);
+      resolve(this.content);
     }
   }
 };
