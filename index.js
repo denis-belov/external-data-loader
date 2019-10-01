@@ -6,7 +6,7 @@ no-magic-numbers
 
 module.exports = class {
   constructor() {
-    this.content = {};
+    // this.content = {};
     this.length = null;
     this.current = null;
     this.loaded = null;
@@ -15,7 +15,10 @@ module.exports = class {
   }
 
   getXhr({
-    type, source, name, middleware = null,
+    name,
+    type,
+    source,
+    middleware,
   }, resolve, reject) {
     const xhr = new XMLHttpRequest();
     xhr.lastLoaded = 0;
@@ -71,7 +74,7 @@ module.exports = class {
   load(options) {
     return new Promise((resolve, reject) => {
       if (!options || !options.sources) {
-        reject(new Error('xgk::js::web::Loader: no sources.'));
+        reject(new Error('external-data-loader ERROR: NO SOURCES'));
       } else {
         this.length = Object.keys(options.sources).length;
         this.current = 0;
@@ -81,10 +84,10 @@ module.exports = class {
 
         for (const source in options.sources) {
           const src = options.sources[source];
-          this.content[source] = this.getXhr({
+          this.getXhr({
+            name: source,
             type: src.type || 'text',
             source: src.source || src,
-            name: source,
             middleware: src.middleware || null,
           }, resolve, reject);
         }
@@ -107,24 +110,24 @@ module.exports = class {
     this.loaded += xhr.lengthComputable ? (1 - xhr.loaded) : 1;
     this.progress();
     const src = this.content[name];
-    this.content[name] = src.image || src.response || src.responseText;
+    const content = src.image || src.response || src.responseText;
+    this.content[name] = middleware ? middleware(content) : content;
 
     if (++this.current === this.length) {
       this.loaded = this.length;
       this.progress();
-      resolve(middleware ? middleware(this.content) : this.content);
+      resolve(this.content);
     }
   }
 
   onloadBroken(name, resolve) {
     this.loaded++;
     this.progress();
-    this.content[name] = null;
 
     if (++this.current === this.length) {
       this.loaded = this.length;
       this.progress();
-      resolve(this.content);
+      resolve(null);
     }
   }
 };
