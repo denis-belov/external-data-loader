@@ -18,6 +18,7 @@ module.exports = class {
     name,
     type,
     source,
+    headers,
     middleware,
   }, resolve, reject) {
     const xhr = new XMLHttpRequest();
@@ -45,6 +46,10 @@ module.exports = class {
 
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.setRequestHeader('Content-type', 'text');
+
+      if (headers) {
+        Object.keys(headers).forEach((key) => xhr.setRequestHeader(key, headers[key]));
+      }
 
       xhr.onprogress = (evt) => this.onprogress(xhr, evt);
 
@@ -88,6 +93,7 @@ module.exports = class {
             name: source,
             type: src.type || 'text',
             source: src.source || src,
+            headers: options.headers,
             middleware: src.middleware || null,
           }, resolve, reject);
         }
