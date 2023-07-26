@@ -21,7 +21,7 @@ module.exports = (
   entry,
 
   output: {
-    path: path.join(__dirname, 'build'),
+    path: path.join(dirname, 'build'),
     filename: 'index.js',
     library: 'external-data-loader',
     libraryTarget: 'umd',
@@ -37,12 +37,12 @@ module.exports = (
         use: [
           { loader: 'babel-loader' },
 
-          // {
-          //   loader: 'eslint-loader',
-          //   // options: {
-          //   //   configFile: './.eslintrc.js',
-          //   // },
-          // },
+          {
+            loader: 'eslint-loader',
+            options: {
+              configFile: './.eslintrc.js',
+            },
+          },
         ],
       },
     ],
@@ -68,5 +68,5 @@ module.exports = (
   //   }) ],
   // },
 
-  // plugins: [ new BannerPlugin({ banner: fs.readFileSync('./LICENSE', 'utf8') }) ],
+  plugins: [ new BannerPlugin({ banner: fs.readFileSync('./LICENSE', 'utf8') }) ],
 });
