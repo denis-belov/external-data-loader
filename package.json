@@ -2,9 +2,33 @@
   "name": "external-data-loader",
   "version": "0.0.26",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
   "author": "Denis Belov",
   "license": "MIT",
   "email": "dsbelov63@gmail.com",
-  "repository": "git@github.com/denis-belov/external-data-loader"
+  "repository": "git@github.com/denis-belov/external-data-loader",
+  "devDependencies": {
+    "@babel/core": "7.14.3",
+    "@babel/preset-env": "7.14.4",
+    "@babel/eslint-parser": "7.14.4",
+    "@babel/polyfill": "7.4.4",
+    "@babel/plugin-proposal-class-properties": "7.13.0",
+    "@babel/plugin-proposal-optional-chaining": "7.14.2",
+    "webpack": "5.38.1",
+    "webpack-cli": "4.7.0",
+    "webpack-dev-server": "^3.11.2",
+    "babel-loader": "8.2.2",
+    "eslint-loader": "4.0.2",
+    "clean-webpack-plugin": "3.0.0",
+    "copy-webpack-plugin": "9.0.0",
+    "eslint": "7.27.0",
+    "eslint-config-strict": "14.0.1"
+  },
+  "scripts": {
+    "build": "BABEL=1 ESLINT=1 webpack --mode=production",
+    "build:no-eslint": "BABEL=1 webpack --mode=production",
+    "build-upload:no-eslint": "BABEL=1 webpack --mode=production && node publish",
+    "build:clear": "webpack --mode=production",
+    "upload": "node publish"
+  }
 }
