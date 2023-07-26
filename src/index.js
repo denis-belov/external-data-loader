@@ -4,7 +4,7 @@ linebreak-style,
 no-magic-numbers
 */
 
-module.exports = class {
+export default class {
   constructor() {
     this.content = {};
     this.length = null;
